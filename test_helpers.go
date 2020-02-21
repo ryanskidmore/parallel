@@ -10,7 +10,7 @@ import (
 )
 
 // Assert fails the test if the condition is false.
-func test_Assert(t *testing.T, condition bool, msg string, v ...interface{}) {
+func testAssert(t *testing.T, condition bool, msg string, v ...interface{}) {
 	if !condition {
 		_, file, line, _ := runtime.Caller(1)
 		fmt.Printf("\033[31m%s:%d: "+msg+"\033[39m\n\n", append([]interface{}{filepath.Base(file), line}, v...)...)
@@ -19,7 +19,7 @@ func test_Assert(t *testing.T, condition bool, msg string, v ...interface{}) {
 }
 
 // ok fails the test if an err is not nil.
-func test_Nil(t *testing.T, val interface{}) {
+func testNil(t *testing.T, val interface{}) {
 	if val != nil {
 		_, file, line, _ := runtime.Caller(1)
 		fmt.Printf("\033[31m%s:%d: unexpected value: %s\033[39m\n\n", filepath.Base(file), line, val)
@@ -27,7 +27,7 @@ func test_Nil(t *testing.T, val interface{}) {
 	}
 }
 
-func test_NotNil(t *testing.T, val interface{}) {
+func testNotNil(t *testing.T, val interface{}) {
 	if val == nil {
 		_, file, line, _ := runtime.Caller(1)
 		fmt.Printf("\033[31m%s:%d: expected not nil, got nil\033[39m\n\n", filepath.Base(file), line)
@@ -36,7 +36,7 @@ func test_NotNil(t *testing.T, val interface{}) {
 }
 
 // equals fails the test if exp is not equal to act.
-func test_Equals(t *testing.T, exp, act interface{}) {
+func testEquals(t *testing.T, exp, act interface{}) {
 	if !reflect.DeepEqual(exp, act) {
 		_, file, line, _ := runtime.Caller(1)
 		fmt.Printf("\033[31m%s:%d:\n\n\texp: %#v\n\n\tgot: %#v\033[39m\n\n", filepath.Base(file), line, exp, act)
@@ -44,7 +44,7 @@ func test_Equals(t *testing.T, exp, act interface{}) {
 	}
 }
 
-type test_Struct struct {
+type testStruct struct {
 	Counter int
 	Mutex   sync.Mutex
 }

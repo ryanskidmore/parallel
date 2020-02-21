@@ -2,8 +2,9 @@ package parallel
 
 import "errors"
 
-// Create a new DataChannel with specified name. A DataChannel
-// is a conduit for transferring data between workers/goroutines.
+// NewDataChannel creates a new DataChannel with specified
+// name. A DataChannel is a conduit for transferring data
+// between workers/goroutines.
 func (p *Parallel) NewDataChannel(name string) error {
 	if _, exists := p.dataChannels[name]; exists {
 		return errors.New("Data channel already exists")
@@ -12,7 +13,8 @@ func (p *Parallel) NewDataChannel(name string) error {
 	return nil
 }
 
-// Close an existing DataChannel with specified name.
+// CloseDataChannel closes an existing DataChannel with
+// specified name.
 func (p *Parallel) CloseDataChannel(name string) error {
 	if _, exists := p.dataChannels[name]; !exists {
 		return errors.New("Data channel doesn't exists")

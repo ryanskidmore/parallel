@@ -17,31 +17,31 @@ func TestWorkerHelper(t *testing.T) {
 	}
 	t.Run("Initialization", func(t *testing.T) {
 		wh := newWorkerHelper(w)
-		test_NotNil(t, wh)
-		test_NotNil(t, wh.worker)
-		test_NotNil(t, wh.wg)
+		testNotNil(t, wh)
+		testNotNil(t, wh.worker)
+		testNotNil(t, wh.wg)
 	})
 	t.Run("PublishData", func(t *testing.T) {
 		wh := newWorkerHelper(w)
 		err := wh.PublishData("TestChannel", "testdata")
-		test_Nil(t, err)
+		testNil(t, err)
 	})
 	t.Run("ConsumeData", func(t *testing.T) {
 		wh := newWorkerHelper(w)
 		data, err := wh.ConsumeData("TestChannel")
-		test_Nil(t, err)
-		test_Equals(t, data.(string), "testdata")
+		testNil(t, err)
+		testEquals(t, data.(string), "testdata")
 	})
 	t.Run("ConsumeDataInBatches", func(t *testing.T) {
 		wh := newWorkerHelper(w)
 		for i := 0; i < 100; i++ {
 			err := wh.PublishData("TestChannel", "testdata")
-			test_Nil(t, err)
+			testNil(t, err)
 		}
 		for i := 0; i < 5; i++ {
 			data, err := wh.ConsumeDataInBatches("TestChannel", 20)
-			test_Nil(t, err)
-			test_Assert(t, len(data) == 20, "length of batch isn't 20 (value: %v)", len(data))
+			testNil(t, err)
+			testAssert(t, len(data) == 20, "length of batch isn't 20 (value: %v)", len(data))
 		}
 	})
 	t.Run("ConsumeDataCloseChan", func(t *testing.T) {
@@ -49,9 +49,9 @@ func TestWorkerHelper(t *testing.T) {
 		go func() {
 			time.Sleep(50 * time.Millisecond)
 			err = p.CloseDataChannel("TestChannel")
-			test_Nil(t, err)
+			testNil(t, err)
 		}()
 		_, err := wh.ConsumeData("TestChannel")
-		test_NotNil(t, err)
+		testNotNil(t, err)
 	})
 }
