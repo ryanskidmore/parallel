@@ -5,6 +5,7 @@ type Parallel struct {
 	dataChannels map[string]chan interface{}
 }
 
+// Create a new instance of the parallel struct
 func New() *Parallel {
 	workers := make(map[string]*Worker)
 	dataChannels := make(map[string]chan interface{})

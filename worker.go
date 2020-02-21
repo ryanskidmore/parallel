@@ -2,6 +2,8 @@ package parallel
 
 import "errors"
 
+// The Worker struct contains the necessary components for
+// a parallelizable worker.
 type Worker struct {
 	p       *Parallel
 	Name    string
@@ -10,10 +12,13 @@ type Worker struct {
 	helper  *WorkerHelper
 }
 
+// The WorkerConfig struct contains the configuration for
+// a worker.
 type WorkerConfig struct {
 	Parallelism int
 }
 
+// Creates a new worker with the specified name and config.
 func (p *Parallel) NewWorker(name string, cfg *WorkerConfig) (*Worker, error) {
 	if _, exists := p.workers[name]; exists {
 		return nil, errors.New("worker already exists")
@@ -30,6 +35,7 @@ func (p *Parallel) NewWorker(name string, cfg *WorkerConfig) (*Worker, error) {
 	return w, nil
 }
 
+// Get a worker by name.
 func (p *Parallel) Worker(name string) *Worker {
 	if _, exists := p.workers[name]; !exists {
 		return nil
@@ -37,10 +43,14 @@ func (p *Parallel) Worker(name string) *Worker {
 	return p.workers[name]
 }
 
+// Set the execution function of the worker. This is
+// the function that is executed inside every worker.
 func (w *Worker) SetExecution(exec func(wh *WorkerHelper, args interface{})) {
 	w.execute = exec
 }
 
+// Start a worker with the specified args, which are
+// passed to every instance of the worker.
 func (w *Worker) Start(args interface{}) {
 	wh := newWorkerHelper(w)
 	w.helper = wh
@@ -50,10 +60,13 @@ func (w *Worker) Start(args interface{}) {
 	}
 }
 
+// Wait until all worker routines have finished
+// processing.
 func (w *Worker) Wait() {
 	w.helper.wg.Wait()
 }
 
+// Set the number of parallel routines for a worker.
 func (w *Worker) SetParallelism(p int) {
 	w.Config.Parallelism = p
 }
