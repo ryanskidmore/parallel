@@ -1,6 +1,8 @@
 # parallel: a Go Parallel Processing Library
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/gin-contrib/sessions)](https://goreportcard.com/report/github.com/gin-contrib/sessions)
+[![Build Status](https://travis-ci.org/ryanskidmore/parallel.svg)](https://travis-ci.org/ryanskidmore/parallel)
+[![codecov](https://codecov.io/gh/ryanskidmore/parallel/branch/master/graph/badge.svg)](https://codecov.io/gh/ryanskidmore/parallel)
+[![Go Report Card](https://goreportcard.com/badge/github.com/ryanskidmore/parallel)](https://goreportcard.com/report/github.com/ryanskidmore/parallel)
 [![GoDoc](https://godoc.org/github.com/ryanskidmore/parallel?status.svg)](https://godoc.org/github.com/ryanskidmore/parallel)
 
 Concurrency is hard. This library doesn't aim to make it easy, but it will hopefully make it a little less painful. 
