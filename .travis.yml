@@ -9,3 +9,4 @@ before_script:
 
 script:
   - golangci-lint run
+  - bash <(curl -s https://codecov.io/bash)
