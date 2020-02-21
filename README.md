@@ -1,5 +1,8 @@
 # parallel: a Go Parallel Processing Library
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/gin-contrib/sessions)](https://goreportcard.com/report/github.com/gin-contrib/sessions)
+[![GoDoc](https://godoc.org/github.com/ryanskidmore/parallel?status.svg)](https://godoc.org/github.com/ryanskidmore/parallel)
+
 Concurrency is hard. This library doesn't aim to make it easy, but it will hopefully make it a little less painful. 
 
 ## Install
@@ -79,3 +82,7 @@ data, err := WorkerHelper.ConsumeDataInBatches("name", 20)
 ```
 
 These functions will return an error when the DataChannel doesn't exist or when the channel is closed.
+
+## Examples
+
+Examples of usage can be found in the `examples` directory.
