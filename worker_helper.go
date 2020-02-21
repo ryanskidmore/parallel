@@ -56,7 +56,7 @@ func (wh *WorkerHelper) ConsumeDataInBatches(name string, size int) ([]interface
 	if _, exists := wh.worker.p.dataChannels[name]; !exists {
 		return nil, errors.New("Data channel does not exist")
 	}
-	dataBatch := make([]interface{}, size, size)
+	dataBatch := make([]interface{}, size)
 	for i := 0; i < size; i++ {
 		data, open := <-wh.worker.p.dataChannels[name]
 		if !open {
