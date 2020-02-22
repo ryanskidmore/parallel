@@ -43,12 +43,12 @@ func main() {
     if err != nil {
         log.Fatalf("FATAL: Failed to create new worker: %v", err)
     }
-    worker.SetExecution(func(wh *parallel.WorkerHelper, args interface{}) { 
+    worker.SetExecution(func(wh *parallel.WorkerHelper, args interface{}) { // Set the worker execution function
         fmt.Println(args)
         wh.Done()
     })
-    worker.Start(interface{}("Test String"))
-    worker.Wait()
+    worker.Start(interface{}("Test String")) // Start with worker with specified args
+    worker.Wait() // Wait for the worker to complete
 }
 ```
 ## Docs
