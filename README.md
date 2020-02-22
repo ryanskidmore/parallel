@@ -8,56 +8,60 @@
 Concurrency is hard. This library doesn't aim to make it easy, but it will hopefully make it a little less painful. 
 
 ## Install
+This library _should_ be compatible with all recent and future versions of Go, and has no third party dependencies. 
+```sh
+go get -u github.com/ryanskidmore/parallel
+```
 
-`go get github.com/ryanskidmore/parallel`
+You can then import the library
+
+```go
+import "github.com/ryanskidmore/parallel"
+```
 
 ## Testing
-
-`go test`
-
-## Usage
-
-Initialise an instance of parallel
-
-`p := parallel.New()`
-
-Create a new worker. A worker is a processor that runs inside a goroutine. The parallelism configuration option defines how many goroutines running this worker will be spun up. 
-
-```go
-worker, err := p.NewWorker("name", &parallel.WorkerConfig{Parallelism: 1})
+This library uses the standard Go testing tools, and doesn't use any third party testing libraries.
+```sh
+go test
 ```
 
-Retrieve a worker.
+## Quick Start
 
 ```go
-worker := p.Worker("name")
+package main
+
+import (
+    "log"
+    "fmt"
+
+    "github.com/ryanskidmore/parallel"
+)
+
+func main() {
+    p := parallel.New() // Create a new instance of parallel
+    worker, err := p.NewWorker("worker1", &parallel.WorkerConfig{Parallelism: 1}) // Create a new worker
+    if err != nil {
+        log.Fatalf("FATAL: Failed to create new worker: %v", err)
+    }
+    worker.SetExecution(func(wh *parallel.WorkerHelper, args interface{}) { 
+        fmt.Println(args)
+        wh.Done()
+    })
+    worker.Start(interface{}("Test String"))
+    worker.Wait()
+}
 ```
+## Docs
+The best source of reference is the [GoDocs](https://godoc.org/github.com/ryanskidmore/parallel) for this library. 
+Noted below are parts of the library that may not be immediately obvious from the docs or otherwise.
 
-Set the execution function. The execution function is the function that is executed inside the goroutine. This function is only run once per goroutine. 
-
-The execution function must have the signature `func(wh *parallel.WorkerHelper, args interface{})`.
-
-```go
-worker.SetExecution(func(wh *parallel.WorkerHelper, args interface{}) { fmt.Println(args) })
-```
-
-Starting the worker. This will start the worker in the configured number of goroutines with the given args.
-
-```go
-worker.Start(interface{}("args"))
-```
-
-Wait for the worker to complete. This function waits until goroutines have finished executing. Note: you must call `WorkerHelper.Done()` in your execution function for this to work
-
-```go
-worker.Wait()
-```
 
 ### WorkerHelper
 
-The WorkerHelper struct gives you access to a WaitGroup via `WorkerHelper.Done()`.
+The WorkerHelper struct gives you access to a WaitGroup via `WorkerHelper.Done()`. When you call `Worker.Wait()` this waits
+on the WorkGroup for that worker and will block until every instance of the worker has called `WorkerHelper.Done()`.
 
-The WorkerHelper can also be used to consume and publish data from other workers/goroutines. This is done using DataChannels.
+The WorkerHelper can also be used to consume and publish data to/from other workers/goroutines and this is done using DataChannels.
 
 ### DataChannels
 
@@ -87,4 +91,4 @@ These functions will return an error when the DataChannel doesn't exist or when 
 
 ## Examples
 
-Examples of usage can be found in the `examples` directory.
+Examples of usage can be found in the [examples](https://github.com/ryanskidmore/parallel/tree/master/examples) directory.
