@@ -27,6 +27,10 @@ func TestWorker(t *testing.T) {
 			testNotNil(t, w.Config)
 			testAssert(t, w.Config.Parallelism == 1, "GetWorker failed: incorrect parallelism")
 		})
+		t.Run("GetWorkerDoesntExist", func(t *testing.T) {
+			w := p.Worker("DoesntExist")
+			testAssert(t, w == nil, "worker is not nil")
+		})
 		t.Run("SetParallelism", func(t *testing.T) {
 			p.Worker("TestWorker").SetParallelism(12)
 			testAssert(t, p.Worker("TestWorker").Config.Parallelism == 12, "GetWorker failed: incorrect parallelism")
